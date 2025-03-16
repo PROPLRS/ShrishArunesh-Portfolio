@@ -1,1 +1,56 @@
+import os
+import shutil
 
+# Define the file types and their corresponding target folders.
+# This dictionary maps file extensions to specific folders like Images, Documents, Videos, etc.
+FILE_TYPES = {
+    "Images": [".png", ".jpg", ".jpeg", ".gif", ".bmp"],
+    "Documents": [".pdf", ".docx", ".txt", ".xlsx", ".pptx"],
+    "Videos": [".mp4", ".mkv", ".avi", ".mov"],
+    "Music": [".mp3", ".wav", ".aac"],
+    "Archives": [".zip", ".rar", ".tar", ".gz"],
+    "Executables": [".exe", ".msi"],
+    "Others": []  # Any file that doesn't fit into the above categories will go here.
+}
+
+# Function to organize files based on their extensions.
+def organize_files(directory):
+    # Check if the given directory exists.
+    if not os.path.exists(directory):
+        print(f"Directory '{directory}' does not exist.")
+        return
+
+    # Loop through each folder type in FILE_TYPES and create the folders if they don't exist.
+    for folder in FILE_TYPES:
+        folder_path = os.path.join(directory, folder)
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
+
+    # Iterate through all files in the given directory.
+    for filename in os.listdir(directory):
+        file_path = os.path.join(directory, filename)
+
+        # Check if the current item is a file (not a folder).
+        if os.path.isfile(file_path):
+            # Extract the file extension and convert it to lowercase for consistency.
+            file_ext = os.path.splitext(filename)[1].lower()
+            # Default destination folder is "Others" if the extension doesn't match any category.
+            destination_folder = "Others"
+
+            # Loop through FILE_TYPES to find a matching folder for the file extension.
+            for folder, extensions in FILE_TYPES.items():
+                if file_ext in extensions:
+                    destination_folder = folder
+                    break
+
+            # Construct the target path and move the file to the appropriate folder.
+            target_path = os.path.join(directory, destination_folder, filename)
+            shutil.move(file_path, target_path)
+
+    print("Files organized successfully!")
+
+# This block ensures the script only runs when executed directly, not when imported as a module.
+if __name__ == "__main__":
+    # Prompt the user to enter the directory path to organize.
+    target_directory = input("Enter the directory path to organize: ")
+    organize_files(target_directory)

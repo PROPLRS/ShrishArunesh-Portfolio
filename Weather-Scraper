@@ -1,0 +1,60 @@
+import requests
+import json
+
+
+def get_weather(city):
+    """
+    Fetches real-time weather data for a given city using the OpenWeatherMap API.
+    The function returns temperature, humidity, wind speed, and general weather conditions.
+    """
+    API_KEY = 'd78494edc46f01302a44c650470cd039'  # Replace this with your actual OpenWeatherMap API key. Here I have used mine.
+    BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
+
+    # Define parameters for the API request
+    params = {
+        "q": city,
+        "appid": API_KEY,
+        "units": "metric"  # Fetch temperature in Celsius
+    }
+
+    try:
+        # Make the request to the API
+        response = requests.get(BASE_URL, params=params)
+        response.raise_for_status()  # Raise an error for unsuccessful requests
+        data = response.json()
+
+        # Extract relevant weather information
+        weather_info = {
+            "City": data["name"],
+            "Temperature (°C)": data["main"]["temp"],
+            "Humidity (%)": data["main"]["humidity"],
+            "Wind Speed (m/s)": data["wind"]["speed"],
+            "Weather Condition": data["weather"][0]["description"].capitalize()
+        }
+
+        return weather_info
+
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching data: {e}")
+        return None
+    except KeyError:
+        print("Invalid city name or data not found.")
+        return None
+
+
+if __name__ == "__main__":
+    print("Real-Time Weather Data Scraper")
+    city_name = input("Enter the city name: ")
+    weather = get_weather(city_name)
+
+    if weather:
+        print("\nWeather Report:")
+        for key, value in weather.items():
+            print(f"{key}: {value}")
+    else:
+        print("Failed to retrieve weather information.")
+
+# About the Developer:
+# As someone passionate about automation and real-world applications, I built this script to fetch
+# live weather updates using Python and APIs. This project is part of my journey in mastering data
+# extraction, API handling, and real-time analytics.

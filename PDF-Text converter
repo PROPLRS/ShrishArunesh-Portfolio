@@ -1,0 +1,50 @@
+import PyPDF2
+import pytesseract
+from pdf2image import convert_from_path
+from PIL import Image
+import os
+
+def extract_text_from_pdf(pdf_path, output_txt_path="output.txt"):
+    """
+    Extracts text from a PDF file and saves it to a .txt file.
+    Handles both normal PDFs and scanned PDFs using OCR.
+    """
+    text = ""
+    try:
+        with open(pdf_path, "rb") as file:
+            pdf_reader = PyPDF2.PdfReader(file)
+            for page in pdf_reader.pages:
+                text += page.extract_text() or ""
+
+        if not text.strip():  # If no text was extracted, assume it's a scanned PDF
+            print("No text found, attempting OCR on scanned PDF...")
+            text = extract_text_using_ocr(pdf_path)
+
+        with open(output_txt_path, "w", encoding="utf-8") as txt_file:
+            txt_file.write(text)
+
+        print(f"Text extraction complete! Saved to {output_txt_path}")
+    except Exception as e:
+        print(f"Error extracting text: {e}")
+
+
+def extract_text_using_ocr(pdf_path):
+    """
+    Converts each page of a scanned PDF to an image and performs OCR.
+    """
+    text = ""
+    images = convert_from_path(pdf_path)
+    for img in images:
+        text += pytesseract.image_to_string(img) + "\n"
+    return text
+
+
+if __name__ == "__main__":
+    print("PDF to Text Converter")
+    pdf_file = input("Enter the path to the PDF file: ")
+    extract_text_from_pdf(pdf_file)
+
+# About the Developer:
+# As someone passionate about automation and data extraction, I built this script to simplify the
+# process of extracting text from PDFs, whether they are digitally created or scanned documents.
+# This project enhances my skills in working with file processing, OCR, and Python automation.

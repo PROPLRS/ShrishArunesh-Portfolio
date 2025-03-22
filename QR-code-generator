@@ -1,0 +1,35 @@
+import qrcode
+from PIL import Image
+
+
+def generate_qr_code(data, filename="qr_code.png", color="black", background="white", size=10):
+    """
+    Generates a QR code from the given data and saves it as an image file.
+    Allows customization of color and size.
+    """
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=size,
+        border=4,
+    )
+    qr.add_data(data)
+    qr.make(fit=True)
+
+    qr_image = qr.make_image(fill_color=color, back_color=background)
+    qr_image.save(filename)
+    print(f"QR code saved as {filename}")
+
+
+if __name__ == "__main__":
+    print("QR Code Generator")
+    data = input("Enter the text or URL to generate a QR code: ")
+    filename = input("Enter filename to save QR code (default: qr_code.png): ") or "qr_code.png"
+    color = input("Enter QR code color (default: black): ") or "black"
+    background = input("Enter background color (default: white): ") or "white"
+
+    generate_qr_code(data, filename, color, background)
+
+# About the Developer: Shrish
+# I created this QR Code Generator to make sharing links and text easier using QR technology.
+# This project enhances my skills in Python image processing, automation, and user input handling.

@@ -1,0 +1,57 @@
+import os
+
+
+def rename_files(directory, prefix="", suffix="", replace_old="", replace_new="", preview=True):
+    """
+    Renames multiple files in the specified directory by adding a prefix, suffix,
+    or replacing parts of filenames. Ensures changes are applied before renaming.
+    """
+    if not os.path.exists(directory):
+        print("Error: Directory does not exist.")
+        return
+
+    files = os.listdir(directory)
+    if not files:
+        print("No files found in the directory.")
+        return
+
+    print("Preview of renamed files:")
+    renamed_files = []
+    for filename in files:
+        old_path = os.path.join(directory, filename)
+        if os.path.isfile(old_path):
+            name, ext = os.path.splitext(filename)
+            new_name = prefix + name.replace(replace_old, replace_new) + suffix + ext
+            new_path = os.path.join(directory, new_name)
+
+            if old_path != new_path:  # Ensure change happens
+                renamed_files.append((old_path, new_path))
+                print(f"{filename} -> {new_name}")
+            else:
+                print(f"Skipped (No Change): {filename}")
+
+    if preview:
+        confirm = input("Proceed with renaming? (yes/no): ").strip().lower()
+        if confirm != "yes":
+            print("Operation canceled.")
+            return
+
+    for old_path, new_path in renamed_files:
+        os.rename(old_path, new_path)
+        print(f"Renamed: {os.path.basename(old_path)} -> {os.path.basename(new_path)}")
+    print("Files renamed successfully!")
+
+
+if __name__ == "__main__":
+    print("Bulk File Renamer")
+    dir_path = input("Enter the directory path: ")
+    prefix = input("Enter prefix (leave blank for none): ")
+    suffix = input("Enter suffix (leave blank for none): ")
+    replace_old = input("Enter text to replace (leave blank for none): ")
+    replace_new = input("Enter replacement text (leave blank for none): ")
+    rename_files(dir_path, prefix, suffix, replace_old, replace_new)
+
+# About the Developer: Shrish
+# I built this script to automate bulk file renaming, making file organization easier.
+# This project is part of my journey in Python automation, simplifying repetitive tasks
+# and improving workflow efficiency.

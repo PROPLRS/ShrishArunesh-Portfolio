@@ -44,7 +44,7 @@ if __name__ == "__main__":
     pdf_file = input("Enter the path to the PDF file: ")
     extract_text_from_pdf(pdf_file)
 
-# About the Developer:
+# About the Developer - Shrish Arunesh:
 # As someone passionate about automation and data extraction, I built this script to simplify the
 # process of extracting text from PDFs, whether they are digitally created or scanned documents.
 # This project enhances my skills in working with file processing, OCR, and Python automation.

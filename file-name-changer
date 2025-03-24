@@ -51,7 +51,7 @@ if __name__ == "__main__":
     replace_new = input("Enter replacement text (leave blank for none): ")
     rename_files(dir_path, prefix, suffix, replace_old, replace_new)
 
-# About the Developer: Shrish
+# About the Developer - Shrish Arunesh:
 # I built this script to automate bulk file renaming, making file organization easier.
 # This project is part of my journey in Python automation, simplifying repetitive tasks
 # and improving workflow efficiency.

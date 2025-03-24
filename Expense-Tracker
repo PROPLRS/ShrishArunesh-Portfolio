@@ -1,0 +1,87 @@
+import csv
+import os
+from datetime import datetime
+
+
+def initialize_file(filename="expenses.csv"):
+    """Creates the CSV file if it doesn't exist and adds headers."""
+    if not os.path.exists(filename):
+        with open(filename, mode="w", newline="") as file:
+            writer = csv.writer(file)
+            writer.writerow(["Date", "Category", "Amount", "Currency", "Description"])
+
+
+def add_expense(category, amount, currency, description, filename="expenses.csv"):
+    """Logs a new expense into the CSV file with currency support."""
+    date = datetime.now().strftime("%Y-%m-%d")
+    with open(filename, mode="a", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow([date, category, amount, currency, description])
+    print("Expense added successfully!")
+
+
+def view_expenses(filename="expenses.csv"):
+    """Displays all recorded expenses."""
+    if not os.path.exists(filename):
+        print("No expenses recorded yet.")
+        return
+
+    with open(filename, mode="r") as file:
+        reader = csv.reader(file)
+        for row in reader:
+            print(" | ".join(row))
+
+
+def total_expenses(filename="expenses.csv"):
+    """Calculates and displays the total expenses grouped by currency."""
+    if not os.path.exists(filename):
+        print("No expenses recorded yet.")
+        return
+
+    totals = {}
+    with open(filename, mode="r") as file:
+        reader = csv.reader(file)
+        next(reader)  # Skip header
+        for row in reader:
+            amount = float(row[2])
+            currency = row[3]
+            if currency in totals:
+                totals[currency] += amount
+            else:
+                totals[currency] = amount
+
+    print("Total Expenses:")
+    for currency, total in totals.items():
+        print(f"{currency} {total:.2f}")
+
+
+def main():
+    """Main function for user interaction."""
+    initialize_file()
+    print("Expense Tracker")
+    while True:
+        print("\nOptions: add, view, total, exit")
+        choice = input("Enter your choice: ").strip().lower()
+        if choice == "add":
+            category = input("Enter category (e.g., Food, Rent, Transport): ")
+            amount = float(input("Enter amount: "))
+            currency = input("Enter currency (e.g., USD, EUR, GBP): ").upper()
+            description = input("Enter description: ")
+            add_expense(category, amount, currency, description)
+        elif choice == "view":
+            view_expenses()
+        elif choice == "total":
+            total_expenses()
+        elif choice == "exit":
+            break
+        else:
+            print("Invalid choice. Try again.")
+
+
+if __name__ == "__main__":
+    main()
+
+# About the Developer - Shrish Arunesh:
+# I created this Expense Tracker to simplify budget management and track spending efficiently.
+# This project enhances my skills in Python file handling, data storage, and financial automation.
+# Now supports multiple currencies for better global tracking.

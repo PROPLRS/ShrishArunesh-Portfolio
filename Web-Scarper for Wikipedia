@@ -71,8 +71,3 @@ if __name__ == "__main__":
             print(f"{event['Title']} - {event['Link']}")
     else:
         print("No events found. Website structure may have changed or requests were blocked.")
-
-# About the Developer:
-# As someone deeply passionate about automation and data scraping, I built this script to stay updated
-# with Wikipedia's latest events while improving my Python skills in web scraping and data management.
-# This project is part of my journey in building real-world solutions using Python.

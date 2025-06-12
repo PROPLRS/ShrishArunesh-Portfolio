@@ -29,7 +29,3 @@ if __name__ == "__main__":
     background = input("Enter background color (default: white): ") or "white"
 
     generate_qr_code(data, filename, color, background)
-
-# About the Developer: Shrish
-# I created this QR Code Generator to make sharing links and text easier using QR technology.
-# This project enhances my skills in Python image processing, automation, and user input handling.

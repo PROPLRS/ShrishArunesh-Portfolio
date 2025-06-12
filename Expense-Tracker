@@ -80,8 +80,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-# About the Developer - Shrish Arunesh:
-# I created this Expense Tracker to simplify budget management and track spending efficiently.
-# This project enhances my skills in Python file handling, data storage, and financial automation.
-# Now supports multiple currencies for better global tracking.

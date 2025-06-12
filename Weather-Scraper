@@ -53,8 +53,3 @@ if __name__ == "__main__":
             print(f"{key}: {value}")
     else:
         print("Failed to retrieve weather information.")
-
-# About the Developer:
-# As someone passionate about automation and real-world applications, I built this script to fetch
-# live weather updates using Python and APIs. This project is part of my journey in mastering data
-# extraction, API handling, and real-time analytics.
